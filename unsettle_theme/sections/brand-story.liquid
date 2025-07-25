@@ -1,0 +1,340 @@
+<section class="brand-story">
+  <div class="container">
+    <div class="brand-story__content">
+      <div class="brand-story__text animate-on-scroll">
+        <h2 class="brand-story__title">{{ section.settings.title | default: "Why Unsettle?" }}</h2>
+        <div class="brand-story__description">
+          {{ section.settings.description | default: "In a world that constantly pushes us to settle for ordinary, to conform, to blend in, Unsettle emerges as a rebellion against the mundane. This isn't just about keychains—it's about carrying pieces of your authentic self wherever you go." }}
+        </div>
+        
+        <div class="brand-story__features">
+          <div class="brand-story__feature">
+            <div class="brand-story__feature-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                <path d="M20.84 4.61A5.5 5.5 0 0 0 16.5 2.5C14.76 2.5 13.09 3.42 12 4.84C10.91 3.42 9.24 2.5 7.5 2.5A5.5 5.5 0 0 0 3.16 4.61C1.84 5.93 1.84 8.07 3.16 9.39L12 18.23L20.84 9.39C22.16 8.07 22.16 5.93 20.84 4.61Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="brand-story__feature-content">
+              <h3>Self-Expression</h3>
+              <p>Each charm tells a piece of your story, celebrating what makes you uniquely you.</p>
+            </div>
+          </div>
+
+          <div class="brand-story__feature">
+            <div class="brand-story__feature-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                <path d="M8 12L10.5 14.5L16 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="brand-story__feature-content">
+              <h3>Healing Energy</h3>
+              <p>Authentic energy stones and meaningful symbols to support your journey.</p>
+            </div>
+          </div>
+
+          <div class="brand-story__feature">
+            <div class="brand-story__feature-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="brand-story__feature-content">
+              <h3>Empowerment</h3>
+              <p>Carry reminders of your strength, dreams, and the courage to be different.</p>
+            </div>
+          </div>
+        </div>
+
+        <a href="{{ section.settings.cta_link | default: '/pages/our-story' }}" class="btn btn--primary">
+          {{ section.settings.cta_text | default: "Read Our Story" }}
+        </a>
+      </div>
+
+      <div class="brand-story__visual animate-on-scroll">
+        <div class="brand-story__image-grid">
+          <div class="brand-story__image brand-story__image--1">
+            {%- if section.settings.image_1 -%}
+              <img src="{{ section.settings.image_1 | image_url: width: 300 }}" alt="Unsettle Story" loading="lazy">
+            {%- else -%}
+              <img src="{{ 'lifestyle_scene.jpg' | asset_url }}" alt="Unsettle Story" loading="lazy">
+            {%- endif -%}
+          </div>
+          <div class="brand-story__image brand-story__image--2">
+            {%- if section.settings.image_2 -%}
+              <img src="{{ section.settings.image_2 | image_url: width: 250 }}" alt="Energy Stones" loading="lazy">
+            {%- else -%}
+              <img src="{{ 'energy_stones.jpg' | asset_url }}" alt="Energy Stones" loading="lazy">
+            {%- endif -%}
+          </div>
+          <div class="brand-story__image brand-story__image--3">
+            {%- if section.settings.image_3 -%}
+              <img src="{{ section.settings.image_3 | image_url: width: 200 }}" alt="Charm Collection" loading="lazy">
+            {%- else -%}
+              <img src="{{ 'charm_collection.jpg' | asset_url }}" alt="Charm Collection" loading="lazy">
+            {%- endif -%}
+          </div>
+        </div>
+
+        <div class="brand-story__quote">
+          <blockquote>
+            "{{ section.settings.quote | default: 'Every charm is a reminder that you have the power to unsettle the ordinary and create something extraordinary.' }}"
+          </blockquote>
+          <cite>{{ section.settings.quote_author | default: "— Unsettle Founder" }}</cite>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .brand-story {
+    padding: 8rem 0;
+    background: linear-gradient(135deg, var(--color-secondary) 0%, rgba(156, 175, 136, 0.1) 100%);
+  }
+
+  .brand-story__content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+  }
+
+  .brand-story__title {
+    font-size: 3.6rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: var(--color-text);
+    line-height: 1.2;
+  }
+
+  .brand-story__description {
+    font-size: 1.8rem;
+    line-height: 1.6;
+    margin-bottom: 3rem;
+    color: var(--color-text);
+    opacity: 0.9;
+  }
+
+  .brand-story__features {
+    margin-bottom: 3rem;
+  }
+
+  .brand-story__feature {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .brand-story__feature-icon {
+    flex-shrink: 0;
+    width: 60px;
+    height: 60px;
+    background-color: var(--color-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+  }
+
+  .brand-story__feature-content h3 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--color-text);
+  }
+
+  .brand-story__feature-content p {
+    font-size: 1.4rem;
+    line-height: 1.5;
+    color: var(--color-text);
+    opacity: 0.8;
+  }
+
+  .brand-story__visual {
+    position: relative;
+  }
+
+  .brand-story__image-grid {
+    position: relative;
+    height: 500px;
+  }
+
+  .brand-story__image {
+    position: absolute;
+    border-radius: 1.5rem;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(44, 44, 44, 0.15);
+    transition: transform 0.4s ease;
+  }
+
+  .brand-story__image:hover {
+    transform: scale(1.05);
+  }
+
+  .brand-story__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .brand-story__image--1 {
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 300px;
+    z-index: 3;
+  }
+
+  .brand-story__image--2 {
+    top: 50px;
+    right: 0;
+    width: 200px;
+    height: 250px;
+    z-index: 2;
+  }
+
+  .brand-story__image--3 {
+    bottom: 0;
+    left: 100px;
+    width: 180px;
+    height: 220px;
+    z-index: 1;
+  }
+
+  .brand-story__quote {
+    position: absolute;
+    bottom: -50px;
+    right: 50px;
+    background-color: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 8px 32px rgba(44, 44, 44, 0.1);
+    max-width: 300px;
+    z-index: 4;
+  }
+
+  .brand-story__quote blockquote {
+    font-size: 1.4rem;
+    font-style: italic;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    color: var(--color-text);
+  }
+
+  .brand-story__quote cite {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--color-primary);
+  }
+
+  @media screen and (max-width: 768px) {
+    .brand-story__content {
+      grid-template-columns: 1fr;
+      gap: 4rem;
+    }
+
+    .brand-story__title {
+      font-size: 2.8rem;
+    }
+
+    .brand-story__description {
+      font-size: 1.6rem;
+    }
+
+    .brand-story__image-grid {
+      height: 400px;
+    }
+
+    .brand-story__image--1 {
+      width: 200px;
+      height: 240px;
+    }
+
+    .brand-story__image--2 {
+      width: 160px;
+      height: 200px;
+      top: 80px;
+    }
+
+    .brand-story__image--3 {
+      width: 140px;
+      height: 180px;
+      left: 80px;
+    }
+
+    .brand-story__quote {
+      position: static;
+      margin-top: 2rem;
+      max-width: none;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Brand Story",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Why Unsettle?"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>In a world that constantly pushes us to settle for ordinary, to conform, to blend in, Unsettle emerges as a rebellion against the mundane. This isn't just about keychains—it's about carrying pieces of your authentic self wherever you go.</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Image 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Image 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_3",
+      "label": "Image 3"
+    },
+    {
+      "type": "textarea",
+      "id": "quote",
+      "label": "Quote",
+      "default": "Every charm is a reminder that you have the power to unsettle the ordinary and create something extraordinary."
+    },
+    {
+      "type": "text",
+      "id": "quote_author",
+      "label": "Quote Author",
+      "default": "— Unsettle Founder"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button Text",
+      "default": "Read Our Story"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Brand Story"
+    }
+  ]
+}
+{% endschema %}
+

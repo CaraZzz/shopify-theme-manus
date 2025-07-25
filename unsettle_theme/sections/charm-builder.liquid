@@ -1,0 +1,667 @@
+<section class="charm-builder" id="charm-builder">
+  <div class="container">
+    <div class="charm-builder__header">
+      <h2 class="charm-builder__title">Create Your Unique Keychain</h2>
+      <p class="charm-builder__subtitle">
+        Mix and match charms to tell your story. Each charm represents a piece of who you are.
+      </p>
+    </div>
+
+    <div class="charm-builder__content">
+      <!-- Preview Area -->
+      <div class="charm-builder__preview">
+        <div class="charm-builder__keychain">
+          <div class="charm-builder__ring">
+            <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+              <circle cx="40" cy="40" r="35" stroke="#E8B4A0" stroke-width="6" fill="none"/>
+              <circle cx="40" cy="40" r="25" stroke="#E8B4A0" stroke-width="2" fill="none"/>
+            </svg>
+          </div>
+          <div class="charm-builder__charms" id="selected-charms">
+            <!-- Selected charms will appear here -->
+          </div>
+        </div>
+        
+        <div class="charm-builder__preview-info">
+          <h3>Your Keychain</h3>
+          <div class="charm-builder__price">
+            <span class="charm-builder__price-label">Total:</span>
+            <span class="charm-builder__price-value" id="total-price">$5.00</span>
+          </div>
+          <div class="charm-builder__charm-count">
+            <span id="charm-count">0</span> / 6 charms selected
+          </div>
+          <button class="btn btn--primary charm-builder__add-to-cart" id="add-custom-keychain">
+            Add to Cart
+          </button>
+        </div>
+      </div>
+
+      <!-- Charm Categories -->
+      <div class="charm-builder__categories">
+        <div class="charm-builder__category-nav">
+          <button class="charm-builder__category-btn active" data-category="all">All Charms</button>
+          <button class="charm-builder__category-btn" data-category="energy">Energy Stones</button>
+          <button class="charm-builder__category-btn" data-category="sports">Sports</button>
+          <button class="charm-builder__category-btn" data-category="hobbies">Hobbies</button>
+          <button class="charm-builder__category-btn" data-category="plushies">Plushies</button>
+          <button class="charm-builder__category-btn" data-category="art">Mini Art</button>
+        </div>
+
+        <!-- Charm Grid -->
+        <div class="charm-builder__grid" id="charm-grid">
+          <!-- Energy Stones -->
+          <div class="charm-builder__charm" data-category="energy" data-id="amethyst" data-price="8" data-name="Amethyst">
+            <div class="charm-builder__charm-image">
+              <img src="{{ 'charm-amethyst.png' | asset_url }}" alt="Amethyst Charm" loading="lazy">
+            </div>
+            <div class="charm-builder__charm-info">
+              <h4>Amethyst</h4>
+              <p>Spiritual protection & clarity</p>
+              <span class="charm-builder__charm-price">$8</span>
+            </div>
+            <button class="charm-builder__charm-add">+</button>
+          </div>
+
+          <div class="charm-builder__charm" data-category="energy" data-id="rose-quartz" data-price="8" data-name="Rose Quartz">
+            <div class="charm-builder__charm-image">
+              <img src="{{ 'charm-rose-quartz.png' | asset_url }}" alt="Rose Quartz Charm" loading="lazy">
+            </div>
+            <div class="charm-builder__charm-info">
+              <h4>Rose Quartz</h4>
+              <p>Love & emotional healing</p>
+              <span class="charm-builder__charm-price">$8</span>
+            </div>
+            <button class="charm-builder__charm-add">+</button>
+          </div>
+
+          <div class="charm-builder__charm" data-category="energy" data-id="citrine" data-price="8" data-name="Citrine">
+            <div class="charm-builder__charm-image">
+              <img src="{{ 'charm-citrine.png' | asset_url }}" alt="Citrine Charm" loading="lazy">
+            </div>
+            <div class="charm-builder__charm-info">
+              <h4>Citrine</h4>
+              <p>Abundance & positivity</p>
+              <span class="charm-builder__charm-price">$8</span>
+            </div>
+            <button class="charm-builder__charm-add">+</button>
+          </div>
+
+          <!-- Sports -->
+          <div class="charm-builder__charm" data-category="sports" data-id="tennis" data-price="6" data-name="Tennis Racket">
+            <div class="charm-builder__charm-image">
+              <img src="{{ 'charm-tennis.png' | asset_url }}" alt="Tennis Charm" loading="lazy">
+            </div>
+            <div class="charm-builder__charm-info">
+              <h4>Tennis Racket</h4>
+              <p>Athletic spirit</p>
+              <span class="charm-builder__charm-price">$6</span>
+            </div>
+            <button class="charm-builder__charm-add">+</button>
+          </div>
+
+          <div class="charm-builder__charm" data-category="sports" data-id="yoga" data-price="6" data-name="Yoga Pose">
+            <div class="charm-builder__charm-image">
+              <img src="{{ 'charm-yoga.png' | asset_url }}" alt="Yoga Charm" loading="lazy">
+            </div>
+            <div class="charm-builder__charm-info">
+              <h4>Yoga Pose</h4>
+              <p>Balance & mindfulness</p>
+              <span class="charm-builder__charm-price">$6</span>
+            </div>
+            <button class="charm-builder__charm-add">+</button>
+          </div>
+
+          <!-- Plushies -->
+          <div class="charm-builder__charm" data-category="plushies" data-id="teddy-bear" data-price="7" data-name="Teddy Bear">
+            <div class="charm-builder__charm-image">
+              <img src="{{ 'charm-teddy.png' | asset_url }}" alt="Teddy Bear Charm" loading="lazy">
+            </div>
+            <div class="charm-builder__charm-info">
+              <h4>Teddy Bear</h4>
+              <p>Comfort & nostalgia</p>
+              <span class="charm-builder__charm-price">$7</span>
+            </div>
+            <button class="charm-builder__charm-add">+</button>
+          </div>
+
+          <div class="charm-builder__charm" data-category="plushies" data-id="bunny" data-price="7" data-name="Bunny">
+            <div class="charm-builder__charm-image">
+              <img src="{{ 'charm-bunny.png' | asset_url }}" alt="Bunny Charm" loading="lazy">
+            </div>
+            <div class="charm-builder__charm-info">
+              <h4>Bunny</h4>
+              <p>Playfulness & joy</p>
+              <span class="charm-builder__charm-price">$7</span>
+            </div>
+            <button class="charm-builder__charm-add">+</button>
+          </div>
+
+          <!-- Art -->
+          <div class="charm-builder__charm" data-category="art" data-id="landscape" data-price="9" data-name="Mini Landscape">
+            <div class="charm-builder__charm-image">
+              <img src="{{ 'charm-landscape.png' | asset_url }}" alt="Landscape Charm" loading="lazy">
+            </div>
+            <div class="charm-builder__charm-info">
+              <h4>Mini Landscape</h4>
+              <p>Nature & serenity</p>
+              <span class="charm-builder__charm-price">$9</span>
+            </div>
+            <button class="charm-builder__charm-add">+</button>
+          </div>
+
+          <div class="charm-builder__charm" data-category="art" data-id="abstract" data-price="9" data-name="Abstract Art">
+            <div class="charm-builder__charm-image">
+              <img src="{{ 'charm-abstract.png' | asset_url }}" alt="Abstract Art Charm" loading="lazy">
+            </div>
+            <div class="charm-builder__charm-info">
+              <h4>Abstract Art</h4>
+              <p>Creativity & expression</p>
+              <span class="charm-builder__charm-price">$9</span>
+            </div>
+            <button class="charm-builder__charm-add">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .charm-builder {
+    padding: 6rem 0;
+    background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-accent) 100%);
+  }
+
+  .charm-builder__header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .charm-builder__title {
+    font-size: 3.2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--color-text);
+  }
+
+  .charm-builder__subtitle {
+    font-size: 1.8rem;
+    color: var(--color-text);
+    opacity: 0.8;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .charm-builder__content {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .charm-builder__preview {
+    background-color: white;
+    border-radius: 1.5rem;
+    padding: 2rem;
+    box-shadow: 0 8px 32px rgba(44, 44, 44, 0.1);
+    position: sticky;
+    top: 2rem;
+  }
+
+  .charm-builder__keychain {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .charm-builder__ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .charm-builder__charms {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  .charm-builder__selected-charm {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: white;
+    box-shadow: 0 2px 8px rgba(44, 44, 44, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+
+  .charm-builder__selected-charm:hover {
+    transform: scale(1.1);
+  }
+
+  .charm-builder__selected-charm img {
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+  .charm-builder__selected-charm .remove-charm {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    width: 16px;
+    height: 16px;
+    background-color: var(--color-rose-gold);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .charm-builder__preview-info h3 {
+    text-align: center;
+    margin-bottom: 1rem;
+    color: var(--color-text);
+  }
+
+  .charm-builder__price {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background-color: var(--color-accent);
+    border-radius: 0.8rem;
+  }
+
+  .charm-builder__price-label {
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .charm-builder__price-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--color-primary);
+  }
+
+  .charm-builder__charm-count {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: var(--color-text);
+    opacity: 0.8;
+  }
+
+  .charm-builder__add-to-cart {
+    width: 100%;
+  }
+
+  .charm-builder__categories {
+    background-color: white;
+    border-radius: 1.5rem;
+    padding: 2rem;
+    box-shadow: 0 8px 32px rgba(44, 44, 44, 0.1);
+  }
+
+  .charm-builder__category-nav {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .charm-builder__category-btn {
+    background-color: var(--color-accent);
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 2rem;
+    font-weight: 600;
+    color: var(--color-text);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .charm-builder__category-btn.active,
+  .charm-builder__category-btn:hover {
+    background-color: var(--color-primary);
+    color: white;
+  }
+
+  .charm-builder__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .charm-builder__charm {
+    background-color: var(--color-secondary);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    text-align: center;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+  }
+
+  .charm-builder__charm:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(44, 44, 44, 0.15);
+  }
+
+  .charm-builder__charm.selected {
+    border: 2px solid var(--color-primary);
+    background-color: rgba(156, 175, 136, 0.1);
+  }
+
+  .charm-builder__charm-image {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1rem;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .charm-builder__charm-image img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+  }
+
+  .charm-builder__charm-info h4 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--color-text);
+  }
+
+  .charm-builder__charm-info p {
+    font-size: 1.2rem;
+    color: var(--color-text);
+    opacity: 0.7;
+    margin-bottom: 0.5rem;
+  }
+
+  .charm-builder__charm-price {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--color-primary);
+  }
+
+  .charm-builder__charm-add {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 30px;
+    height: 30px;
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 1.6rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .charm-builder__charm-add:hover {
+    background-color: var(--color-rose-gold);
+    transform: scale(1.1);
+  }
+
+  .charm-builder__charm.selected .charm-builder__charm-add {
+    background-color: var(--color-rose-gold);
+    transform: rotate(45deg);
+  }
+
+  @media screen and (max-width: 768px) {
+    .charm-builder__content {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .charm-builder__preview {
+      position: static;
+    }
+
+    .charm-builder__category-nav {
+      justify-content: center;
+    }
+
+    .charm-builder__grid {
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const charmBuilder = {
+      selectedCharms: [],
+      maxCharms: 6,
+      basePrice: 5,
+      
+      init() {
+        this.bindEvents();
+        this.updateDisplay();
+      },
+
+      bindEvents() {
+        // Category navigation
+        document.querySelectorAll('.charm-builder__category-btn').forEach(btn => {
+          btn.addEventListener('click', (e) => this.filterCategory(e.target.dataset.category));
+        });
+
+        // Charm selection
+        document.querySelectorAll('.charm-builder__charm-add').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.toggleCharm(e.target.closest('.charm-builder__charm'));
+          });
+        });
+
+        // Add to cart
+        document.getElementById('add-custom-keychain').addEventListener('click', () => {
+          this.addToCart();
+        });
+      },
+
+      filterCategory(category) {
+        // Update active button
+        document.querySelectorAll('.charm-builder__category-btn').forEach(btn => {
+          btn.classList.remove('active');
+        });
+        document.querySelector(`[data-category="${category}"]`).classList.add('active');
+
+        // Filter charms
+        document.querySelectorAll('.charm-builder__charm').forEach(charm => {
+          if (category === 'all' || charm.dataset.category === category) {
+            charm.style.display = 'block';
+          } else {
+            charm.style.display = 'none';
+          }
+        });
+      },
+
+      toggleCharm(charmElement) {
+        const charmId = charmElement.dataset.id;
+        const charmData = {
+          id: charmId,
+          name: charmElement.dataset.name,
+          price: parseInt(charmElement.dataset.price),
+          image: charmElement.querySelector('img').src
+        };
+
+        const existingIndex = this.selectedCharms.findIndex(charm => charm.id === charmId);
+
+        if (existingIndex > -1) {
+          // Remove charm
+          this.selectedCharms.splice(existingIndex, 1);
+          charmElement.classList.remove('selected');
+        } else if (this.selectedCharms.length < this.maxCharms) {
+          // Add charm
+          this.selectedCharms.push(charmData);
+          charmElement.classList.add('selected');
+        } else {
+          // Max charms reached
+          this.showNotification('Maximum 6 charms allowed per keychain');
+          return;
+        }
+
+        this.updateDisplay();
+      },
+
+      updateDisplay() {
+        this.updatePreview();
+        this.updatePrice();
+        this.updateCount();
+      },
+
+      updatePreview() {
+        const charmsContainer = document.getElementById('selected-charms');
+        charmsContainer.innerHTML = '';
+
+        this.selectedCharms.forEach((charm, index) => {
+          const charmElement = document.createElement('div');
+          charmElement.className = 'charm-builder__selected-charm';
+          charmElement.style.transform = `rotate(${index * (360 / this.maxCharms)}deg) translateY(-60px)`;
+          
+          charmElement.innerHTML = `
+            <img src="${charm.image}" alt="${charm.name}">
+            <button class="remove-charm" data-charm-id="${charm.id}">×</button>
+          `;
+
+          // Add remove functionality
+          charmElement.querySelector('.remove-charm').addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.removeCharm(charm.id);
+          });
+
+          charmsContainer.appendChild(charmElement);
+        });
+      },
+
+      removeCharm(charmId) {
+        const charmElement = document.querySelector(`[data-id="${charmId}"]`);
+        if (charmElement) {
+          charmElement.classList.remove('selected');
+        }
+        
+        this.selectedCharms = this.selectedCharms.filter(charm => charm.id !== charmId);
+        this.updateDisplay();
+      },
+
+      updatePrice() {
+        const totalPrice = this.basePrice + this.selectedCharms.reduce((sum, charm) => sum + charm.price, 0);
+        document.getElementById('total-price').textContent = `$${totalPrice}`;
+      },
+
+      updateCount() {
+        document.getElementById('charm-count').textContent = this.selectedCharms.length;
+      },
+
+      addToCart() {
+        if (this.selectedCharms.length === 0) {
+          this.showNotification('Please select at least one charm');
+          return;
+        }
+
+        // Create custom product data
+        const customKeychain = {
+          title: 'Custom Keychain',
+          charms: this.selectedCharms,
+          totalPrice: this.basePrice + this.selectedCharms.reduce((sum, charm) => sum + charm.price, 0)
+        };
+
+        // Add to cart (this would integrate with Shopify's cart API)
+        console.log('Adding custom keychain to cart:', customKeychain);
+        this.showNotification('Custom keychain added to cart!');
+      },
+
+      showNotification(message) {
+        // Create and show notification
+        const notification = document.createElement('div');
+        notification.className = 'charm-builder__notification';
+        notification.textContent = message;
+        notification.style.cssText = `
+          position: fixed;
+          top: 2rem;
+          right: 2rem;
+          background-color: var(--color-primary);
+          color: white;
+          padding: 1rem 2rem;
+          border-radius: 0.5rem;
+          z-index: 1000;
+          animation: slideIn 0.3s ease;
+        `;
+
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+          notification.remove();
+        }, 3000);
+      }
+    };
+
+    charmBuilder.init();
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Charm Builder",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Create Your Unique Keychain"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Mix and match charms to tell your story. Each charm represents a piece of who you are."
+    },
+    {
+      "type": "range",
+      "id": "base_price",
+      "label": "Base Keychain Price",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "unit": "$",
+      "default": 5
+    }
+  ],
+  "presets": [
+    {
+      "name": "Charm Builder"
+    }
+  ]
+}
+{% endschema %}
+

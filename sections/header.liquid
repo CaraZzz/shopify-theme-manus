@@ -1,0 +1,386 @@
+{%- liquid
+  assign logo_alt = settings.logo.alt | default: shop.name | escape
+  assign logo_height = settings.logo_width | divided_by: settings.logo.aspect_ratio
+-%}
+
+<header class="header{% if settings.enable_sticky_header %} header--sticky{% endif %}" role="banner">
+  <div class="container">
+    <div class="header__inner">
+      <!-- Logo -->
+      <div class="header__logo-wrapper">
+        <a href="{{ routes.root_url }}" class="header__logo-link">
+          {%- if settings.logo != blank -%}
+            <img
+              src="{{ settings.logo | image_url: width: settings.logo_width }}"
+              alt="{{ logo_alt }}"
+              class="header__logo"
+              width="{{ settings.logo_width }}"
+              height="{{ logo_height }}"
+              loading="lazy"
+            >
+          {%- else -%}
+            <span class="header__logo-text">{{ shop.name }}</span>
+          {%- endif -%}
+        </a>
+      </div>
+
+      <!-- Navigation -->
+      <nav class="header__nav" role="navigation">
+        <ul class="header__nav-list">
+          {%- for link in linklists.main-menu.links -%}
+            <li class="header__nav-item">
+              <a href="{{ link.url }}" class="header__nav-link{% if link.active %} header__nav-link--active{% endif %}">
+                {{ link.title }}
+              </a>
+              {%- if link.links != blank -%}
+                <ul class="header__submenu">
+                  {%- for childlink in link.links -%}
+                    <li class="header__submenu-item">
+                      <a href="{{ childlink.url }}" class="header__submenu-link">
+                        {{ childlink.title }}
+                      </a>
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+      </nav>
+
+      <!-- Header actions -->
+      <div class="header__actions">
+        <!-- Search -->
+        <div class="header__search">
+          <button type="button" class="header__search-toggle" aria-label="Search">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M19 19L13 13M15 8A7 7 0 1 1 1 8A7 7 0 0 1 15 8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Account -->
+        <div class="header__account">
+          <a href="{{ routes.account_url }}" class="header__account-link" aria-label="Account">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M16 17V15C16 13.9391 15.5786 12.9217 14.8284 12.1716C14.0783 11.4214 13.0609 11 12 11H8C6.93913 11 5.92172 11.4214 5.17157 12.1716C4.42143 12.9217 4 13.9391 4 15V17M12 7C12 9.20914 10.2091 11 8 11C5.79086 11 4 9.20914 4 7C4 4.79086 5.79086 3 8 3C10.2091 3 12 4.79086 12 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+
+        <!-- Wishlist -->
+        <div class="header__wishlist">
+          <a href="/pages/wishlist" class="header__wishlist-link" aria-label="Wishlist">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M17.367 6.122C17.367 3.47 15.243 1.346 12.596 1.346C11.551 1.346 10.587 1.743 9.867 2.419C9.147 1.743 8.183 1.346 7.138 1.346C4.491 1.346 2.367 3.47 2.367 6.122C2.367 12.244 9.867 17.654 9.867 17.654C9.867 17.654 17.367 12.244 17.367 6.122Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="header__wishlist-count">0</span>
+          </a>
+        </div>
+
+        <!-- Cart -->
+        <div class="header__cart">
+          <a href="{{ routes.cart_url }}" class="header__cart-link" aria-label="Cart">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M3 3H5L5.4 5M7 13H17L21 5H5.4M7 13L5.4 5M7 13L4.7 15.3C4.3 15.7 4.6 16.5 5.1 16.5H17M17 13V17C17 17.6 16.6 18 16 18H8C7.4 18 7 17.6 7 17V13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="header__cart-count cart-count">{{ cart.item_count }}</span>
+          </a>
+        </div>
+
+        <!-- Mobile menu toggle -->
+        <button type="button" class="header__mobile-toggle mobile-menu-toggle" aria-label="Menu">
+          <span class="header__mobile-toggle-line"></span>
+          <span class="header__mobile-toggle-line"></span>
+          <span class="header__mobile-toggle-line"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div class="header__mobile-menu mobile-menu">
+      <nav class="mobile-menu__nav">
+        <ul class="mobile-menu__list">
+          {%- for link in linklists.main-menu.links -%}
+            <li class="mobile-menu__item">
+              <a href="{{ link.url }}" class="mobile-menu__link">
+                {{ link.title }}
+              </a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      </nav>
+    </div>
+
+    <!-- Search overlay -->
+    <div class="header__search-overlay">
+      <div class="header__search-content">
+        <form action="{{ routes.search_url }}" method="get" class="header__search-form">
+          <input
+            type="search"
+            name="q"
+            placeholder="Search for charms, keychains..."
+            class="header__search-input"
+            autocomplete="off"
+          >
+          <button type="submit" class="header__search-submit">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M19 19L13 13M15 8A7 7 0 1 1 1 8A7 7 0 0 1 15 8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </form>
+        <button type="button" class="header__search-close">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  .header {
+    background-color: white;
+    box-shadow: 0 2px 12px rgba(44, 44, 44, 0.08);
+    position: relative;
+    z-index: 100;
+  }
+
+  .header--sticky {
+    position: sticky;
+    top: 0;
+  }
+
+  .header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 0;
+  }
+
+  .header__logo {
+    height: auto;
+    max-width: 100%;
+  }
+
+  .header__logo-text {
+    font-family: var(--font-heading-family);
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: var(--color-primary);
+  }
+
+  .header__nav-list {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 2rem;
+  }
+
+  .header__nav-link {
+    font-weight: 500;
+    color: var(--color-text);
+    transition: color 0.3s ease;
+    position: relative;
+  }
+
+  .header__nav-link:hover,
+  .header__nav-link--active {
+    color: var(--color-primary);
+  }
+
+  .header__actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .header__actions a,
+  .header__actions button {
+    color: var(--color-text);
+    transition: color 0.3s ease;
+    position: relative;
+  }
+
+  .header__actions a:hover,
+  .header__actions button:hover {
+    color: var(--color-primary);
+  }
+
+  .header__cart-count,
+  .header__wishlist-count {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: var(--color-primary);
+    color: white;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+  }
+
+  .header__mobile-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .header__mobile-toggle-line {
+    width: 24px;
+    height: 2px;
+    background-color: var(--color-text);
+    transition: all 0.3s ease;
+  }
+
+  .mobile-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: white;
+    box-shadow: 0 4px 12px rgba(44, 44, 44, 0.1);
+  }
+
+  .mobile-menu.active {
+    display: block;
+  }
+
+  .mobile-menu__list {
+    list-style: none;
+    margin: 0;
+    padding: 1rem 0;
+  }
+
+  .mobile-menu__link {
+    display: block;
+    padding: 1rem 2rem;
+    color: var(--color-text);
+    border-bottom: 1px solid var(--color-accent);
+  }
+
+  .header__search-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+
+  .header__search-content {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+  }
+
+  .header__search-form {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .header__search-input {
+    flex: 1;
+    padding: 1rem;
+    border: 2px solid var(--color-accent);
+    border-radius: 0.5rem;
+    font-size: 1.6rem;
+  }
+
+  .header__search-submit {
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+  }
+
+  .header__search-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  @media screen and (max-width: 768px) {
+    .header__nav {
+      display: none;
+    }
+
+    .header__mobile-toggle {
+      display: flex;
+    }
+
+    .header__actions {
+      gap: 1rem;
+    }
+  }
+</style>
+
+<script>
+  // Header search functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const searchToggle = document.querySelector('.header__search-toggle');
+    const searchOverlay = document.querySelector('.header__search-overlay');
+    const searchClose = document.querySelector('.header__search-close');
+    const searchInput = document.querySelector('.header__search-input');
+
+    if (searchToggle && searchOverlay) {
+      searchToggle.addEventListener('click', function() {
+        searchOverlay.style.display = 'flex';
+        setTimeout(() => searchInput.focus(), 100);
+      });
+
+      searchClose.addEventListener('click', function() {
+        searchOverlay.style.display = 'none';
+      });
+
+      searchOverlay.addEventListener('click', function(e) {
+        if (e.target === searchOverlay) {
+          searchOverlay.style.display = 'none';
+        }
+      });
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_search",
+      "label": "Enable search",
+      "default": true
+    }
+  ]
+}
+{% endschema %}
+

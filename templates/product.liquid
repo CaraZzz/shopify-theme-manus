@@ -1,0 +1,647 @@
+<div class="product-page">
+  <div class="container">
+    <div class="product">
+      <!-- Product images -->
+      <div class="product__media">
+        <div class="product__gallery">
+          {%- for media in product.media -%}
+            <div class="product__media-item{% if forloop.first %} active{% endif %}">
+              {%- case media.media_type -%}
+                {%- when 'image' -%}
+                  <img
+                    src="{{ media | image_url: width: 800 }}"
+                    alt="{{ media.alt | escape }}"
+                    class="product__image product-image-zoom"
+                    loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                  >
+                {%- when 'video' -%}
+                  <video controls class="product__video">
+                    <source src="{{ media.sources[1].url }}" type="{{ media.sources[1].mime_type }}">
+                    Your browser does not support the video tag.
+                  </video>
+              {%- endcase -%}
+            </div>
+          {%- endfor -%}
+        </div>
+
+        <!-- Thumbnails -->
+        {%- if product.media.size > 1 -%}
+          <div class="product__thumbnails">
+            {%- for media in product.media -%}
+              <button
+                type="button"
+                class="product__thumbnail{% if forloop.first %} active{% endif %}"
+                data-media-index="{{ forloop.index0 }}"
+              >
+                <img
+                  src="{{ media | image_url: width: 100 }}"
+                  alt="{{ media.alt | escape }}"
+                  loading="lazy"
+                >
+              </button>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      <!-- Product info -->
+      <div class="product__info">
+        <div class="product__header">
+          <h1 class="product__title">{{ product.title }}</h1>
+          
+          <div class="product__price">
+            <span class="product__price-current">
+              {{ product.selected_or_first_available_variant.price | money }}
+            </span>
+            {%- if product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price -%}
+              <span class="product__price-compare">
+                {{ product.selected_or_first_available_variant.compare_at_price | money }}
+              </span>
+            {%- endif -%}
+          </div>
+
+          <!-- Wishlist button -->
+          <button type="button" class="product__wishlist wishlist-btn" data-product-id="{{ product.id }}">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M20.84 4.61A5.5 5.5 0 0 0 16.5 2.5C14.76 2.5 13.09 3.42 12 4.84C10.91 3.42 9.24 2.5 7.5 2.5A5.5 5.5 0 0 0 3.16 4.61C1.84 5.93 1.84 8.07 3.16 9.39L12 18.23L20.84 9.39C22.16 8.07 22.16 5.93 20.84 4.61Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Add to Wishlist</span>
+          </button>
+        </div>
+
+        <!-- Product description -->
+        {%- if product.description != blank -%}
+          <div class="product__description">
+            {{ product.description }}
+          </div>
+        {%- endif -%}
+
+        <!-- Product form -->
+        <form action="/cart/add" method="post" enctype="multipart/form-data" class="product__form">
+          <!-- Variants -->
+          {%- unless product.has_only_default_variant -%}
+            <div class="product__variants">
+              {%- for option in product.options_with_values -%}
+                <div class="product__option">
+                  <label class="product__option-label">{{ option.name }}</label>
+                  <div class="product__option-values">
+                    {%- for value in option.values -%}
+                      <input
+                        type="radio"
+                        id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+                        name="options[{{ option.name | escape }}]"
+                        value="{{ value | escape }}"
+                        class="product__option-input"
+                        {% if option.selected_value == value %}checked{% endif %}
+                      >
+                      <label
+                        for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+                        class="product__option-value"
+                      >
+                        {{ value }}
+                      </label>
+                    {%- endfor -%}
+                  </div>
+                </div>
+              {%- endfor -%}
+            </div>
+          {%- endunless -%}
+
+          <!-- Quantity -->
+          <div class="product__quantity">
+            <label for="quantity" class="product__quantity-label">Quantity</label>
+            <div class="product__quantity-wrapper">
+              <button type="button" class="product__quantity-btn product__quantity-minus">-</button>
+              <input
+                type="number"
+                id="quantity"
+                name="quantity"
+                value="1"
+                min="1"
+                class="product__quantity-input"
+              >
+              <button type="button" class="product__quantity-btn product__quantity-plus">+</button>
+            </div>
+          </div>
+
+          <!-- Add to cart -->
+          <div class="product__actions">
+            <button
+              type="submit"
+              name="add"
+              class="btn btn--primary btn--large product__add-to-cart add-to-cart-btn"
+              {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}
+            >
+              <span class="product__add-to-cart-text">
+                {%- if product.selected_or_first_available_variant.available -%}
+                  Add to Cart
+                {%- else -%}
+                  Sold Out
+                {%- endif -%}
+              </span>
+            </button>
+
+            <button type="button" class="btn btn--secondary product__buy-now">
+              Buy It Now
+            </button>
+          </div>
+
+          <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+        </form>
+
+        <!-- Product features -->
+        <div class="product__features">
+          <div class="product__feature">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M21 16V8A2 2 0 0 0 19 6H5A2 2 0 0 0 3 8V16A2 2 0 0 0 5 18H19A2 2 0 0 0 21 16Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Free shipping on orders over $50</span>
+          </div>
+          
+          <div class="product__feature">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>30-day return guarantee</span>
+          </div>
+          
+          <div class="product__feature">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M8 12L10.5 14.5L16 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Authentic energy stones</span>
+          </div>
+        </div>
+
+        <!-- Share -->
+        <div class="product__share">
+          <span class="product__share-label">Share:</span>
+          <div class="product__share-buttons">
+            <a href="#" class="product__share-btn" data-share="facebook">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M18 2H15C13.6739 2 12.4021 2.52678 11.4645 3.46447C10.5268 4.40215 10 5.67392 10 7V10H7V14H10V22H14V14H17L18 10H14V7C14 6.73478 14.1054 6.48043 14.2929 6.29289C14.4804 6.10536 14.7348 6 15 6H18V2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+            <a href="#" class="product__share-btn" data-share="twitter">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M23 3A10.9 10.9 0 0 1 20.1 4.6A4.48 4.48 0 0 0 22.46 2A9 9 0 0 1 19.36 3.5A4.48 4.48 0 0 0 12 7.44V8.56A10.66 10.66 0 0 1 3 4S-1 13 8 17A11.64 11.64 0 0 1 0 19C9 24 20 19 20 7.77A4.5 4.5 0 0 0 23 3Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+            <a href="#" class="product__share-btn" data-share="pinterest">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                <path d="M8.5 14.5L16 7M16 7H11M16 7V12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Product tabs -->
+<div class="product-tabs">
+  <div class="container">
+    <div class="product-tabs__nav">
+      <button class="product-tabs__tab active" data-tab="description">Description</button>
+      <button class="product-tabs__tab" data-tab="care">Care Instructions</button>
+      <button class="product-tabs__tab" data-tab="shipping">Shipping</button>
+      <button class="product-tabs__tab" data-tab="reviews">Reviews</button>
+    </div>
+
+    <div class="product-tabs__content">
+      <div class="product-tabs__panel active" id="description">
+        <div class="product-tabs__panel-content">
+          {{ product.description }}
+        </div>
+      </div>
+
+      <div class="product-tabs__panel" id="care">
+        <div class="product-tabs__panel-content">
+          <h3>Care Instructions</h3>
+          <ul>
+            <li>Clean with a soft, dry cloth</li>
+            <li>Avoid exposure to water and chemicals</li>
+            <li>Store in a cool, dry place</li>
+            <li>Handle energy stones gently</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-tabs__panel" id="shipping">
+        <div class="product-tabs__panel-content">
+          <h3>Shipping Information</h3>
+          <p>Free shipping on orders over $50. Standard delivery takes 3-5 business days.</p>
+          <p>Express shipping available for $9.99 (1-2 business days).</p>
+        </div>
+      </div>
+
+      <div class="product-tabs__panel" id="reviews">
+        <div class="product-tabs__panel-content">
+          <div id="shopify-product-reviews" data-id="{{ product.id }}">
+            {{ product.metafields.spr.reviews }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Related products -->
+{% section 'related-products' %}
+
+<style>
+  .product-page {
+    padding: 4rem 0;
+  }
+
+  .product {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    margin-bottom: 4rem;
+  }
+
+  .product__gallery {
+    margin-bottom: 1rem;
+  }
+
+  .product__media-item {
+    display: none;
+  }
+
+  .product__media-item.active {
+    display: block;
+  }
+
+  .product__image {
+    width: 100%;
+    height: auto;
+    border-radius: 1rem;
+    cursor: zoom-in;
+  }
+
+  .product__thumbnails {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+  }
+
+  .product__thumbnail {
+    flex-shrink: 0;
+    width: 80px;
+    height: 80px;
+    border: 2px solid transparent;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+  }
+
+  .product__thumbnail.active {
+    border-color: var(--color-primary);
+  }
+
+  .product__thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .product__header {
+    margin-bottom: 2rem;
+  }
+
+  .product__title {
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--color-text);
+  }
+
+  .product__price {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .product__price-current {
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: var(--color-primary);
+  }
+
+  .product__price-compare {
+    font-size: 2rem;
+    color: var(--color-text);
+    opacity: 0.6;
+    text-decoration: line-through;
+  }
+
+  .product__wishlist {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: none;
+    border: 2px solid var(--color-accent);
+    padding: 0.8rem 1.2rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--color-text);
+  }
+
+  .product__wishlist:hover,
+  .product__wishlist.active {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  .product__description {
+    margin-bottom: 2rem;
+    line-height: 1.6;
+    color: var(--color-text);
+  }
+
+  .product__option {
+    margin-bottom: 1.5rem;
+  }
+
+  .product__option-label {
+    display: block;
+    margin-bottom: 0.8rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .product__option-values {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+  }
+
+  .product__option-input {
+    display: none;
+  }
+
+  .product__option-value {
+    padding: 0.8rem 1.2rem;
+    border: 2px solid var(--color-accent);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+  }
+
+  .product__option-input:checked + .product__option-value {
+    border-color: var(--color-primary);
+    background-color: var(--color-primary);
+    color: white;
+  }
+
+  .product__quantity {
+    margin-bottom: 2rem;
+  }
+
+  .product__quantity-label {
+    display: block;
+    margin-bottom: 0.8rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .product__quantity-wrapper {
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    border: 2px solid var(--color-accent);
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+
+  .product__quantity-btn {
+    background-color: var(--color-accent);
+    border: none;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    font-size: 1.8rem;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+  }
+
+  .product__quantity-btn:hover {
+    background-color: var(--color-primary);
+    color: white;
+  }
+
+  .product__quantity-input {
+    width: 60px;
+    height: 40px;
+    text-align: center;
+    border: none;
+    font-size: 1.6rem;
+    font-weight: 600;
+  }
+
+  .product__actions {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .product__actions .btn {
+    flex: 1;
+  }
+
+  .product__features {
+    margin-bottom: 2rem;
+  }
+
+  .product__feature {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    color: var(--color-text);
+  }
+
+  .product__feature svg {
+    color: var(--color-primary);
+  }
+
+  .product__share {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .product__share-label {
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .product__share-buttons {
+    display: flex;
+    gap: 0.8rem;
+  }
+
+  .product__share-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--color-accent);
+    border-radius: 50%;
+    color: var(--color-text);
+    transition: all 0.3s ease;
+  }
+
+  .product__share-btn:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  /* Product tabs */
+  .product-tabs {
+    border-top: 1px solid var(--color-accent);
+    padding: 3rem 0;
+  }
+
+  .product-tabs__nav {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--color-accent);
+  }
+
+  .product-tabs__tab {
+    background: none;
+    border: none;
+    padding: 1rem 0;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--color-text);
+    opacity: 0.6;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-bottom: 2px solid transparent;
+  }
+
+  .product-tabs__tab.active {
+    opacity: 1;
+    border-bottom-color: var(--color-primary);
+  }
+
+  .product-tabs__panel {
+    display: none;
+  }
+
+  .product-tabs__panel.active {
+    display: block;
+  }
+
+  .product-tabs__panel-content {
+    max-width: 800px;
+  }
+
+  @media screen and (max-width: 768px) {
+    .product {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .product__title {
+      font-size: 2.4rem;
+    }
+
+    .product__actions {
+      flex-direction: column;
+    }
+
+    .product-tabs__nav {
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Product gallery
+    const thumbnails = document.querySelectorAll('.product__thumbnail');
+    const mediaItems = document.querySelectorAll('.product__media-item');
+
+    thumbnails.forEach((thumbnail, index) => {
+      thumbnail.addEventListener('click', function() {
+        // Remove active class from all
+        thumbnails.forEach(t => t.classList.remove('active'));
+        mediaItems.forEach(m => m.classList.remove('active'));
+
+        // Add active class to clicked
+        thumbnail.classList.add('active');
+        mediaItems[index].classList.add('active');
+      });
+    });
+
+    // Quantity buttons
+    const quantityInput = document.querySelector('.product__quantity-input');
+    const minusBtn = document.querySelector('.product__quantity-minus');
+    const plusBtn = document.querySelector('.product__quantity-plus');
+
+    if (minusBtn && plusBtn && quantityInput) {
+      minusBtn.addEventListener('click', function() {
+        const currentValue = parseInt(quantityInput.value);
+        if (currentValue > 1) {
+          quantityInput.value = currentValue - 1;
+        }
+      });
+
+      plusBtn.addEventListener('click', function() {
+        const currentValue = parseInt(quantityInput.value);
+        quantityInput.value = currentValue + 1;
+      });
+    }
+
+    // Product tabs
+    const tabButtons = document.querySelectorAll('.product-tabs__tab');
+    const tabPanels = document.querySelectorAll('.product-tabs__panel');
+
+    tabButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const targetTab = this.dataset.tab;
+
+        // Remove active class from all
+        tabButtons.forEach(btn => btn.classList.remove('active'));
+        tabPanels.forEach(panel => panel.classList.remove('active'));
+
+        // Add active class to clicked
+        this.classList.add('active');
+        document.getElementById(targetTab).classList.add('active');
+      });
+    });
+
+    // Variant selection
+    const variantInputs = document.querySelectorAll('.product__option-input');
+    const addToCartBtn = document.querySelector('.product__add-to-cart');
+    const priceElement = document.querySelector('.product__price-current');
+
+    variantInputs.forEach(input => {
+      input.addEventListener('change', function() {
+        updateVariant();
+      });
+    });
+
+    function updateVariant() {
+      // This would typically integrate with Shopify's variant selection
+      // For now, we'll just update the UI
+      console.log('Variant updated');
+    }
+  });
+</script>
+
